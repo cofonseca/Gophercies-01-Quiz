@@ -11,12 +11,12 @@ import (
 var filePath = flag.String("Filepath", "", "The path to a quiz file in .csv format.")
 var interval = flag.Int("Time", 30, "The amount of time allotted to answer each question.")
 
+var numCorrect = 0
+var total = 0
+
 func main() {
 
 	flag.Parse()
-
-	numCorrect := 0
-	total := 0
 
 	csvFile, _ := os.Open(*filePath)
 	reader := csv.NewReader(csvFile)
@@ -39,16 +39,18 @@ func main() {
 		go func() {
 			<-timer.C
 			fmt.Println("Time expired.")
-			os.Exit(1)
+			returnResults(numCorrect, len(csvLines))
 		}()
-
-		total++
 
 	}
 
+	returnResults(numCorrect, len(csvLines))
+
+}
+
+func returnResults(numCorrect int, total int) {
 	resultPercent := ((float32(numCorrect) / float32(total)) * 100)
-
-	fmt.Println("Results:", numCorrect, "of", total)
+	fmt.Println("Result:", numCorrect, "of", total)
 	fmt.Println(int32(resultPercent), "%")
-
+	os.Exit(0)
 }
