@@ -19,8 +19,7 @@ func main() {
 	flag.Parse()
 
 	csvFile, _ := os.Open(*filePath)
-	reader := csv.NewReader(csvFile)
-	csvLines, _ := reader.ReadAll()
+	csvLines, _ := csv.NewReader(csvFile).ReadAll()
 
 	fmt.Println("Welcome! Press ENTER to begin.")
 	fmt.Scanf("\r")
