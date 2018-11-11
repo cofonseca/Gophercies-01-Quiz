@@ -24,14 +24,16 @@ func main() {
 	fmt.Println("Welcome! Press ENTER to begin.")
 	fmt.Scanf("\r")
 
-	timer := time.NewTimer(time.Duration(*interval) * time.Second)
+	timerDuration := time.Duration(*interval) * time.Second
+
+	timer := time.NewTimer(timerDuration)
 	for _, line := range csvLines {
 
 		fmt.Println(line[0])
 		var answer string
 		fmt.Scanf("%s\n", &answer)
 		if answer == line[1] {
-			timer.Reset(time.Duration(*interval) * time.Second)
+			timer.Reset(timerDuration)
 			numCorrect++
 		}
 
